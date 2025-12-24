@@ -5,6 +5,7 @@ interface BalloonProps {
   delay?: number;
   left: string;
   size?: "sm" | "md" | "lg";
+  className?: string; // ✅ Added className prop
 }
 
 const colorMap = {
@@ -20,12 +21,18 @@ const sizeMap = {
   lg: { width: 80, height: 100 },
 };
 
-const Balloon = ({ color, delay = 0, left, size = "md" }: BalloonProps) => {
+const Balloon = ({ 
+  color, 
+  delay = 0, 
+  left, 
+  size = "md", 
+  className = "" // ✅ Added with default value
+}: BalloonProps) => {
   const dimensions = sizeMap[size];
 
   return (
     <motion.div
-      className="absolute bottom-0 pointer-events-none"
+      className={`absolute bottom-0 pointer-events-none ${className}`} // ✅ Added className
       style={{ left }}
       initial={{ y: "100vh", opacity: 0 }}
       animate={{ y: "-120vh", opacity: [0, 1, 1, 0.8] }}

@@ -35,105 +35,117 @@ const CakePage = ({ onComplete, onCakeCut }: CakePageProps) => {
   const balloonColors: Array<"pink" | "gold" | "purple" | "teal"> = ["pink", "gold", "purple", "teal"];
 
   return (
-    <div className="relative min-h-screen gradient-night-sky overflow-hidden flex flex-col items-center justify-center px-4">
-      {/* Background balloons */}
-      {balloonColors.map((color, index) => (
-        <Balloon
-          key={index}
-          color={color}
-          left={`${10 + index * 25}%`}
-          delay={index * 1.5}
-          size="sm"
-        />
-      ))}
+    <div className="relative min-h-screen gradient-night-sky overflow-hidden flex flex-col items-center px-4">
+      {/* Fixed height container for no scrolling */}
+      <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto h-screen py-8">
+        
+        {/* Background balloons - moved up */}
+        {balloonColors.map((color, index) => (
+          <Balloon
+            key={index}
+            color={color}
+            left={`${10 + index * 25}%`}
+            delay={index * 1.5}
+            size="sm"
+            className="-top-20 sm:-top-10" // Start above the screen
+          />
+        ))}
 
-      {/* Confetti on cut */}
-      <AnimatePresence>
-        {showConfetti && <Confetti count={100} isActive={true} />}
-      </AnimatePresence>
+        {/* Confetti on cut */}
+        <AnimatePresence>
+          {showConfetti && <Confetti count={80} isActive={true} />}
+        </AnimatePresence>
 
-      {/* Sparkles */}
-      <Sparkle size={20} color="hsl(43 100% 60%)" delay={0} className="top-[15%] left-[20%]" />
-      <Sparkle size={16} color="hsl(340 80% 70%)" delay={0.5} className="top-[25%] right-[25%]" />
+        {/* Sparkles */}
+        <Sparkle size={16} color="hsl(43 100% 60%)" delay={0} className="top-[10%] left-[10%]" />
+        <Sparkle size={12} color="hsl(340 80% 70%)" delay={0.5} className="top-[15%] right-[15%]" />
 
-      {/* Title */}
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <h2 className="font-celebration text-4xl sm:text-5xl text-primary text-glow-gold mb-4">
-          Make a Wish! ✨
-        </h2>
-        <p className="font-elegant text-lg text-foreground/70">
-          Close your eyes and wish upon the candles
-        </p>
-      </motion.div>
+        {/* Title - Compact */}
+        <motion.div
+          className="text-center mb-4 sm:mb-6 w-full"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <h2 className="font-celebration text-2xl sm:text-3xl md:text-4xl text-primary text-glow-gold mb-2">
+            Make a Wish! ✨
+          </h2>
+          <p className="font-elegant text-sm sm:text-base text-foreground/70">
+            Close your eyes and wish upon the candles
+          </p>
+        </motion.div>
 
-      {/* Cake */}
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.3, duration: 0.8 }}
-      >
-        <BirthdayCake isCut={isCut} />
-      </motion.div>
+        {/* Cake - Smaller on mobile */}
+        <motion.div
+          className="relative z-20 mb-4 sm:mb-6 scale-90 sm:scale-100"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 0.9, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+        >
+          <BirthdayCake isCut={isCut} />
+        </motion.div>
 
-      {/* Wish text */}
-      <AnimatePresence>
-        {wishMade && !isCut && (
-          <motion.p
-            className="mt-8 font-celebration text-2xl text-celebration-warm-yellow text-center"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            Your wish is being granted... 🌟
-          </motion.p>
-        )}
-      </AnimatePresence>
+        {/* Wish text - Minimal space */}
+        <div className="h-10 sm:h-12 flex items-center justify-center mb-2">
+          <AnimatePresence>
+            {wishMade && !isCut && (
+              <motion.p
+                className="font-celebration text-lg sm:text-xl text-celebration-warm-yellow text-center"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                Your wish is being granted... 🌟
+              </motion.p>
+            )}
+          </AnimatePresence>
+        </div>
 
-      {/* Cut button */}
-      <AnimatePresence>
-        {!isCut && (
-          <motion.button
-            onClick={handleCut}
-            className="mt-10 px-8 py-4 bg-gradient-to-r from-celebration-gold to-celebration-warm-yellow rounded-full font-celebration text-xl text-primary-foreground shadow-lg flex items-center gap-3"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ delay: 0.5 }}
-          >
-            <Cake className="w-6 h-6" />
-            {wishMade ? "Cutting..." : "Cut the Cake 🎂"}
-          </motion.button>
-        )}
-      </AnimatePresence>
+        {/* Cut button - Compact */}
+        <div className="h-14 sm:h-16 flex items-center justify-center mt-2">
+          <AnimatePresence>
+            {!isCut && (
+              <motion.button
+                onClick={handleCut}
+                className="px-5 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-celebration-gold to-celebration-warm-yellow rounded-full font-celebration text-base sm:text-lg text-primary-foreground shadow-lg flex items-center gap-2"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ delay: 0.5 }}
+              >
+                <Cake className="w-4 h-4 sm:w-5 sm:h-5" />
+                {wishMade ? "Cutting..." : "Cut the Cake 🎂"}
+              </motion.button>
+            )}
+          </AnimatePresence>
+        </div>
 
-      {/* Celebration message after cut */}
-      <AnimatePresence>
-        {isCut && (
-          <motion.div
-            className="mt-8 text-center"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-          >
-            <motion.p
-              className="font-celebration text-3xl text-primary text-glow-gold"
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 1, repeat: 3 }}
-            >
-              Your wish will come true! 🎊
-            </motion.p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        {/* Celebration message - Compact */}
+        <div className="h-12 sm:h-14 flex items-center justify-center">
+          <AnimatePresence>
+            {isCut && (
+              <motion.div
+                className="text-center"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+              >
+                <motion.p
+                  className="font-celebration text-xl sm:text-2xl text-primary text-glow-gold"
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 1, repeat: 3 }}
+                >
+                  Your wish will come true! 🎊
+                </motion.p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
-      {/* Ambient glow */}
-      <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-[400px] h-[200px] rounded-full bg-celebration-warm-yellow/10 blur-3xl pointer-events-none" />
+        {/* Ambient glow - smaller */}
+        <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-[200px] sm:w-[300px] h-[100px] sm:h-[150px] rounded-full bg-celebration-warm-yellow/5 blur-xl pointer-events-none" />
+      </div>
     </div>
   );
 };
