@@ -18,7 +18,7 @@ const FinalPage = ({ onReplay, recipientName, onFirework }: FinalPageProps) => {
   const [showFireworks, setShowFireworks] = useState(true);
   const [isMusicPlaying, setIsMusicPlaying] = useState(true);
   const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(15);
+  const [duration, setDuration] = useState(40);
   const [isMobile, setIsMobile] = useState(false); // Mobile detection state
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const animationRef = useRef<number | null>(null);
@@ -28,10 +28,10 @@ const FinalPage = ({ onReplay, recipientName, onFirework }: FinalPageProps) => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
@@ -46,7 +46,7 @@ const FinalPage = ({ onReplay, recipientName, onFirework }: FinalPageProps) => {
   // Initialize audio
   useEffect(() => {
     audioRef.current = new Audio();
-    audioRef.current.src = "/audio/kab-tak-jawani.mp3";
+    audioRef.current.src = "/audio/tinku.mp3";
     audioRef.current.loop = true;
     audioRef.current.volume = 0.8;
 
@@ -112,7 +112,7 @@ const FinalPage = ({ onReplay, recipientName, onFirework }: FinalPageProps) => {
 
   useEffect(() => {
     onFirework?.();
-    
+
     const timer = setTimeout(() => {
       setShowFireworks(true);
     }, 500);
@@ -132,7 +132,7 @@ const FinalPage = ({ onReplay, recipientName, onFirework }: FinalPageProps) => {
   };
 
   return (
-    <div 
+    <div
       className="relative min-h-screen overflow-hidden flex flex-col items-center justify-center px-4"
       style={{
         background: "linear-gradient(180deg, hsl(240 40% 5%) 0%, hsl(250 35% 12%) 40%, hsl(270 30% 18%) 100%)",
@@ -184,7 +184,7 @@ const FinalPage = ({ onReplay, recipientName, onFirework }: FinalPageProps) => {
         transition={{ delay: 0.5, duration: 1, type: "spring" }}
       >
         <div className="absolute inset-0 -m-20 rounded-full bg-primary/10 blur-3xl" />
-        
+
         <motion.h1
           className="relative font-celebration text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-primary mb-4 sm:mb-6"
           animate={{
@@ -226,7 +226,7 @@ const FinalPage = ({ onReplay, recipientName, onFirework }: FinalPageProps) => {
               key={index}
               className="w-1 sm:w-1.5 bg-gradient-to-t from-celebration-gold to-celebration-pink rounded-full"
               animate={{
-                height: isMusicPlaying 
+                height: isMusicPlaying
                   ? [`${10 + height * 2}px`, `${15 + height * 3}px`, `${10 + height * 2}px`]
                   : `${10 + height * 2}px`,
               }}
@@ -289,12 +289,12 @@ const FinalPage = ({ onReplay, recipientName, onFirework }: FinalPageProps) => {
 
             {/* Song Info */}
             <div className="flex-1 min-w-0">
-              <p className="text-white text-sm font-bold truncate">Kab Tak Jawani...</p>
+              <p className="text-white text-sm font-bold truncate">Tinku Jiya...</p>
               <p className="text-celebration-gold text-xs truncate">For {recipientName}</p>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-gray-300 text-xs">{formatTime(currentTime)}</span>
                 <div className="flex-1 h-1 bg-gray-700 rounded-full overflow-hidden">
-                  <motion.div 
+                  <motion.div
                     className="h-full bg-gradient-to-r from-celebration-pink to-celebration-gold"
                     style={{ width: `${(currentTime / duration) * 100}%` }}
                     transition={{ duration: 0.1 }}

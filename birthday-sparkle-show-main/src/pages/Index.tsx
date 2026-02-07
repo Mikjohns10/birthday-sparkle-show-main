@@ -11,7 +11,7 @@ import { useAudio } from "../hooks/useAudio";
 
 type CelebrationStep = "welcome" | "cake" | "gifts" | "wishes" | "finale";
 
-const RECIPIENT_NAME = "Shru Halder";
+const RECIPIENT_NAME = "Chandrachur Motu";
 
 const pageVariants = {
   initial: { opacity: 0, scale: 0.95 },
@@ -24,7 +24,7 @@ const Index = () => {
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
   const [showTransitionConfetti, setShowTransitionConfetti] = useState(false);
-  
+
   const { playMusic, pauseMusic, playButtonClick, playCakeCut, playGiftOpen, playFirework } = useAudio();
 
   // Handle music toggle
@@ -38,7 +38,7 @@ const Index = () => {
 
   const handleIgnite = useCallback(() => {
     playButtonClick();
-    
+
     if (!hasInteracted) {
       setHasInteracted(true);
       setIsMusicPlaying(true);
@@ -69,11 +69,14 @@ const Index = () => {
   const handleWishesComplete = useCallback(() => {
     playButtonClick();
     setShowTransitionConfetti(true);
+    // Mute global music before transitioning to finale (finale has its own audio)
+    setIsMusicPlaying(false);
+    pauseMusic();
     setTimeout(() => {
       setCurrentStep("finale");
       setShowTransitionConfetti(false);
     }, 500);
-  }, [playButtonClick]);
+  }, [playButtonClick, pauseMusic]);
 
   const handleReplay = useCallback(() => {
     playButtonClick();
@@ -86,8 +89,8 @@ const Index = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      {/* Music Toggle - Always visible after first interaction */}
-      {hasInteracted && (
+      {/* Music Toggle - Always visible after first interaction, hidden on finale (finale has its own controls) */}
+      {hasInteracted && currentStep !== "finale" && (
         <MusicToggle isPlaying={isMusicPlaying} onToggle={toggleMusic} />
       )}
 
@@ -131,9 +134,9 @@ const Index = () => {
             exit="exit"
             transition={{ duration: 0.6, ease: "easeInOut" }}
           >
-            <GiftsPage 
-              onComplete={handleGiftsComplete} 
-              recipientName={RECIPIENT_NAME} 
+            <GiftsPage
+              onComplete={handleGiftsComplete}
+              recipientName={RECIPIENT_NAME}
               onGiftOpen={handleGiftOpen}
             />
           </motion.div>
@@ -161,9 +164,9 @@ const Index = () => {
             exit="exit"
             transition={{ duration: 0.6, ease: "easeInOut" }}
           >
-            <FinalPage 
-              onReplay={handleReplay} 
-              recipientName={RECIPIENT_NAME} 
+            <FinalPage
+              onReplay={handleReplay}
+              recipientName={RECIPIENT_NAME}
               onFirework={playFirework}
             />
           </motion.div>
