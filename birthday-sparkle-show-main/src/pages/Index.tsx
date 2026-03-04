@@ -11,7 +11,7 @@ import { useAudio } from "../hooks/useAudio";
 
 type CelebrationStep = "welcome" | "cake" | "gifts" | "wishes" | "finale";
 
-const RECIPIENT_NAME = "Chandrachur Motu";
+const RECIPIENT_NAME = "Aritra Nattu";
 
 const pageVariants = {
   initial: { opacity: 0, scale: 0.95 },
