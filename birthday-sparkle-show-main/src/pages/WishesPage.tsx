@@ -10,8 +10,8 @@ interface WishesPageProps {
 
 const wishes = [
   "May your days be filled with laughter, love, and endless joy. You deserve all the happiness in the world! 💖",
-  "Another year wiser, another year more amazing. Here's to new adventures and beautiful memories! 🌟",
-  "Thank you for being the incredible person you are. Your light brightens everyone around you! ✨",
+  "Aroo lombaa ho bkl 🌟",
+  "Playy moree shitssssss broddd ✨",
   "May this year bring you closer to your dreams and shower you with blessings. You're truly special! 🎈",
 ];
 
