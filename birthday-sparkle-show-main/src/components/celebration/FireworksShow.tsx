@@ -47,7 +47,11 @@ const FireworksShow = ({ isActive, intensity = "medium" }: FireworksShowProps) =
         y: Math.random() * window.innerHeight * 0.5 + 50,
         color: colors[Math.floor(Math.random() * colors.length)],
       };
-      setFireworks((prev) => [...prev, newFirework]);
+      setFireworks((prev) => {
+        const updated = [...prev, newFirework];
+        // Cap at 10 active fireworks to prevent performance degradation
+        return updated.length > 10 ? updated.slice(-10) : updated;
+      });
     }, intervalMap[intensity]);
 
     return () => clearInterval(interval);

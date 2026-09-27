@@ -14,8 +14,8 @@ const MobileFireworksShow = ({ isActive }: MobileFireworksShowProps) => {
     const interval = setInterval(() => {
       const newFirework = {
         id: Date.now(),
-        x: Math.random() * 80 + 10, // Keep away from edges
-        y: Math.random() * 60 + 20,
+        x: (Math.random() * 80 + 10) / 100 * window.innerWidth,
+        y: (Math.random() * 60 + 20) / 100 * window.innerHeight,
         color: [
           "hsl(43, 100%, 60%)", // gold
           "hsl(340, 80%, 70%)", // pink

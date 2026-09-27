@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface BirthdayCakeProps {
   onCut?: () => void;
@@ -9,6 +9,14 @@ interface BirthdayCakeProps {
 const BirthdayCake = ({ onCut, isCut = false }: BirthdayCakeProps) => {
   const [candlesLit, setCandlesLit] = useState(true);
   const candles = [0, 1, 2, 3, 4];
+
+  // Blow out candles when cake is cut
+  useEffect(() => {
+    if (isCut && candlesLit) {
+      const timer = setTimeout(() => setCandlesLit(false), 400);
+      return () => clearTimeout(timer);
+    }
+  }, [isCut, candlesLit]);
 
   return (
     <div className="relative">
